@@ -1,0 +1,2 @@
+webpackJsonp([60335399758886],{98:function(t,e){t.exports={data:{site:{siteMetadata:{title:"Martin Roldan",description:"Softwar developer",url:"https://www.mroldan.mx",keywords:"full stack, product enginner, portfolio, personal website"}}},layoutContext:{}}}});
+//# sourceMappingURL=path----c553b66154e5084c77ae.js.map
