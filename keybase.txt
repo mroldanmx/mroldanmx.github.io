@@ -1,0 +1,56 @@
+==================================================================
+https://keybase.io/mroldanmx
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of https://mroldan.mx
+  * I am mroldanmx (https://keybase.io/mroldanmx) on keybase.
+  * I have a public key ASDxG_4--uejebWxau_O6mUdx_WKlNi1W1UoOGMBkJOEfgo
+
+To do so, I am signing this object:
+
+{
+  "body": {
+    "key": {
+      "eldest_kid": "0120f11bfe3efae7a379b5b16aefceea651dc7f58a94d8b55b55283863019093847e0a",
+      "host": "keybase.io",
+      "kid": "0120f11bfe3efae7a379b5b16aefceea651dc7f58a94d8b55b55283863019093847e0a",
+      "uid": "0b879ac9ec2e4c907c1bcf15887bdd19",
+      "username": "mroldanmx"
+    },
+    "merkle_root": {
+      "ctime": 1741753077,
+      "hash": "ac7bcd9db03896d38779f896911f768a6f57735b6ab278f595117f14a3f12952a6d99b4f0b768e8de7e8bbbc8cba033edb137bc1484767f0e7e509332f89a4b9",
+      "hash_meta": "5b63f22b2e053f19de30510ed406a3a69245bc18ec34488faccb2878855572be",
+      "seqno": 26621872
+    },
+    "service": {
+      "entropy": "ESziLnC9+IgHhdANp1mla0m4",
+      "hostname": "mroldan.mx",
+      "protocol": "https:"
+    },
+    "type": "web_service_binding",
+    "version": 2
+  },
+  "client": {
+    "name": "keybase.io go client",
+    "version": "6.5.0"
+  },
+  "ctime": 1741753098,
+  "expire_in": 504576000,
+  "prev": "e35ee4cf331d325cc8446452cc3ff2ece222e4d6dbbd05135c0287c28d9ad493",
+  "seqno": 6,
+  "tag": "signature"
+}
+
+which yields the signature:
+
+hKRib2R5hqhkZXRhY2hlZMOpaGFzaF90eXBlCqNrZXnEIwEg8Rv+Pvrno3m1sWrvzuplHcf1ipTYtVtVKDhjAZCThH4Kp3BheWxvYWTESpcCBsQg417kzzMdMlzIRGRSzD/y7OIi5NbbvQUTXAKHwo2a1JPEIAubhy4cuGj6CtCiYhZ0lwQa+eeEBd7d+p3GFouusP0MAgHCo3NpZ8RAhuMzAJDEIYN0I0f39/bHbilkUbPvdCnfkQb+IYGYwgeYsfZoN474Zp6DxBWyOGbiV0qhMjyaQl8n2zgsk66pB6hzaWdfdHlwZSCkaGFzaIKkdHlwZQildmFsdWXEIDGKk8sXP/PknLs+qHtsUVoTuJE4A6XFKHWILef/3d6zo3RhZ80CAqd2ZXJzaW9uAQ==
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/mroldanmx
+
+==================================================================
