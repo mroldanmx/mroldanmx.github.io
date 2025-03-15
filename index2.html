@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Martin Roldan - Senior Web Developer specializing in PHP and Laravel.">
+    <title>Martin Roldan - Senior Web Developer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body.terminal-mode {
+            background: #1a1a1a;
+            color: #33ff33;
+            font-family: 'Courier New', monospace;
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+            text-shadow: 0 0 3px rgba(51, 255, 51, 0.5);
+            position: relative;
+            animation: flicker 0.1s infinite alternate;
+        }
+        body.terminal-mode::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                to bottom,
+                rgba(0, 0, 0, 0.1),
+                rgba(0, 0, 0, 0.1) 2px,
+                transparent 2px,
+                transparent 4px
+            );
+            pointer-events: none;
+            z-index: 10;
+        }
+        body.kindle-mode {
+            background: #f4ece3;
+            color: #2f2f2f;
+            font-family: Georgia, serif;
+            line-height: 1.8;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        @keyframes flicker {
+            0% { opacity: 0.98; }
+            100% { opacity: 1; }
+        }
+        .mode-switch {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            padding: 5px 10px;
+            font-size: 0.9em;
+            cursor: pointer;
+            z-index: 15;
+        }
+        body.terminal-mode .mode-switch {
+            background: #1a1a1a;
+            color: #33ff33;
+            border: 1px solid #33ff33;
+        }
+        body.kindle-mode .mode-switch {
+            background: #e0d7cc;
+            color: #2f2f2f;
+            border: 1px solid #2f2f2f;
+        }
+        .boot-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2em;
+            z-index: 20;
+            opacity: 1;
+            transition: opacity 0.5s ease-out;
+        }
+        body.terminal-mode .boot-screen {
+            background: #1a1a1a;
+            color: #33ff33;
+            text-shadow: 0 0 3px rgba(51, 255, 51, 0.5);
+        }
+        body.kindle-mode .boot-screen {
+            background: #f4ece3;
+            color: #2f2f2f;
+        }
+        .boot-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            opacity: 0;
+            transition: opacity 0.5s ease-in;
+        }
+        .container.visible {
+            opacity: 1;
+        }
+        body.terminal-mode .container {
+            border: 1px solid #33ff33;
+        }
+        body.kindle-mode .container {
+            border: 1px solid #d3c8b8;
+            background: #fffcf7;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        header, section, footer {
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        body.terminal-mode header,
+        body.terminal-mode section,
+        body.terminal-mode footer {
+            border: 1px solid #33ff33;
+        }
+        body.kindle-mode header,
+        body.kindle-mode section,
+        body.kindle-mode footer {
+            border: 1px solid #d3c8b8;
+        }
+        h1 {
+            font-size: 2em;
+            text-align: center;
+            padding-bottom: 10px;
+        }
+        body.terminal-mode h1 {
+            border-bottom: 1px dashed #33ff33;
+        }
+        body.kindle-mode h1 {
+            border-bottom: 1px solid #d3c8b8;
+        }
+        h2 {
+            font-size: 1.5em;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        h3 {
+            font-size: 1.3em;
+            padding-bottom: 5px;
+            margin-bottom: 10px;
+        }
+        body.terminal-mode h3 {
+            border-bottom: 1px solid #33ff33;
+        }
+        body.kindle-mode h3 {
+            border-bottom: 1px solid #d3c8b8;
+        }
+        p {
+            font-size: 0.95em;
+        }
+        body.kindle-mode p {
+            font-size: 1em;
+        }
+        .skills ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+        .skills li {
+            padding: 5px 10px;
+        }
+        body.terminal-mode .skills li {
+            border: 1px solid #33ff33;
+        }
+        body.kindle-mode .skills li {
+            border: 1px solid #2f2f2f;
+            background: #e0d7cc;
+        }
+        .projects .project {
+            margin-bottom: 20px;
+            padding: 10px;
+        }
+        body.terminal-mode .projects .project {
+            border: 1px dashed #33ff33;
+        }
+        body.kindle-mode .projects .project {
+            border: 1px solid #d3c8b8;
+            background: #fffcf7;
+        }
+        .projects h4 {
+            font-size: 1.1em;
+            margin-bottom: 5px;
+        }
+        .projects .tech, .projects .impact {
+            font-size: 0.9em;
+        }
+        .fun-stuff canvas {
+            max-width: 100%;
+        }
+        body.terminal-mode .fun-stuff canvas {
+            background: #1a1a1a;
+            border: 1px solid #33ff33;
+        }
+        body.kindle-mode .fun-stuff canvas {
+            background: #fffcf7;
+            border: 1px solid #2f2f2f;
+        }
+        .fun-stuff .scoreboard {
+            margin-top: 20px;
+            padding: 10px;
+        }
+        body.terminal-mode .fun-stuff .scoreboard {
+            border: 1px solid #33ff33;
+        }
+        body.kindle-mode .fun-stuff .scoreboard {
+            border: 1px solid #d3c8b8;
+            background: #fffcf7;
+        }
+        .fun-stuff .scoreboard h4 {
+            font-size: 1.1em;
+            margin-bottom: 5px;
+        }
+        .fun-stuff .scoreboard ul {
+            list-style: none;
+            text-align: left;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+        .fun-stuff .scoreboard li {
+            font-size: 0.9em;
+            padding: 3px 0;
+        }
+        .fun-stuff .global-board {
+            margin-top: 20px;
+        }
+        .fun-stuff .terminal {
+            margin-top: 20px;
+            padding: 15px;
+            font-size: 0.95em;
+            max-height: 300px;
+            overflow-y: auto;
+            cursor: text;
+        }
+        body.terminal-mode .fun-stuff .terminal {
+            background: #1a1a1a;
+            border: 1px solid #33ff33;
+            color: #33ff33;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.8);
+            text-shadow: 0 0 3px rgba(51, 255, 51, 0.5);
+            position: relative;
+        }
+        body.terminal-mode .fun-stuff .terminal::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                to bottom,
+                rgba(0, 0, 0, 0.1),
+                rgba(0, 0, 0, 0.1) 2px,
+                transparent 2px,
+                transparent 4px
+            );
+            pointer-events: none;
+        }
+        body.kindle-mode .fun-stuff .terminal {
+            background: #fffcf7;
+            border: 1px solid #2f2f2f;
+            color: #2f2f2f;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .fun-stuff .terminal .output {
+            margin-bottom: 10px;
+        }
+        body.terminal-mode .fun-stuff .terminal .output {
+            color: #33ff33;
+        }
+        body.kindle-mode .fun-stuff .terminal .output {
+            color: #2f2f2f;
+        }
+        .fun-stuff .terminal .input-line {
+            display: flex;
+            align-items: center;
+        }
+        .fun-stuff .terminal .prompt {
+            margin-right: 5px;
+        }
+        body.terminal-mode .fun-stuff .terminal .prompt {
+            color: #33ff33;
+            text-shadow: 0 0 3px rgba(51, 255, 51, 0.5);
+        }
+        body.kindle-mode .fun-stuff .terminal .prompt {
+            color: #2f2f2f;
+        }
+        .fun-stuff .terminal .cursor {
+            width: 8px;
+            height: 1em;
+            margin-left: 2px;
+            animation: blink 1s step-end infinite;
+        }
+        body.terminal-mode .fun-stuff .terminal .cursor {
+            background: #33ff33;
+        }
+        body.kindle-mode .fun-stuff .terminal .cursor {
+            background: #2f2f2f;
+        }
+        .fun-stuff .terminal input {
+            background: none;
+            border: none;
+            font-family: inherit;
+            font-size: 0.95em;
+            outline: none;
+            flex-grow: 1;
+        }
+        body.terminal-mode .fun-stuff .terminal input {
+            color: #33ff33;
+            text-shadow: 0 0 3px rgba(51, 255, 51, 0.5);
+        }
+        body.kindle-mode .fun-stuff .terminal input {
+            color: #2f2f2f;
+        }
+        .fun-stuff p {
+            margin-top: 10px;
+            font-size: 0.9em;
+        }
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+        .contact a {
+            text-decoration: none;
+            padding: 5px 10px;
+            margin: 0 5px;
+            display: inline-block;
+        }
+        body.terminal-mode .contact a {
+            color: #33ff33;
+            border: 1px solid #33ff33;
+        }
+        body.kindle-mode .contact a {
+            color: #2f2f2f;
+            border: 1px solid #2f2f2f;
+            background: #e0d7cc;
+        }
+        body.terminal-mode .contact a:hover {
+            background: rgba(51, 255, 51, 0.2);
+        }
+        body.kindle-mode .contact a:hover {
+            background: #d3c8b8;
+        }
+        .contact .pgp-key {
+            margin-top: 20px;
+        }
+        .contact .pgp-key pre {
+            padding: 10px;
+            font-size: 0.85em;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        body.terminal-mode .contact .pgp-key pre {
+            background: #1a1a1a;
+            border: 1px solid #33ff33;
+        }
+        body.kindle-mode .contact .pgp-key pre {
+            background: #fffcf7;
+            border: 1px solid #2f2f2f;
+        }
+        footer {
+            text-align: center;
+            font-size: 0.9em;
+            padding-top: 10px;
+        }
+        body.terminal-mode footer {
+            border-top: 1px solid #33ff33;
+        }
+        body.kindle-mode footer {
+            border-top: 1px solid #d3c8b8;
+        }
+        @media (max-width: 600px) {
+            .container {
+                padding: 10px;
+            }
+            h1 {
+                font-size: 1.5em;
+            }
+            h2 {
+                font-size: 1.2em;
+            }
+            h3 {
+                font-size: 1.1em;
+            }
+            .skills li, .contact a {
+                padding: 5px 8px;
+            }
+            .projects .project {
+                padding: 8px;
+            }
+            .fun-stuff canvas {
+                width: 300px;
+                height: 300px;
+            }
+            .fun-stuff .terminal {
+                font-size: 0.85em;
+            }
+            .contact .pgp-key pre {
+                font-size: 0.75em;
+            }
+        }
+    </style>
+</head>
+<body class="terminal-mode">
+    <button class="mode-switch" id="modeSwitch">SWITCH MODE</button>
+    <div class="boot-screen" id="bootScreen">
+        <span id="bootText"></span>
+    </div>
+    <div class="container" id="mainContent">
+        <header>
+            <h1>MARTIN ROLDAN</h1>
+            <h2>SENIOR WEB DEVELOPER</h2>
+            <p>Over 10 years of experience crafting fast, scalable, and reliable web solutions with a focus on PHP and Laravel.</p>
+        </header>
+
+        <section class="skills">
+            <h3>SKILLS</h3>
+            <ul>
+                <li>PHP</li>
+                <li>LARAVEL</li>
+                <li>JAVASCRIPT</li>
+                <li>HTML5</li>
+                <li>CSS3</li>
+                <li>MYSQL</li>
+                <li>GIT</li>
+                <li>RESTFUL APIS</li>
+                <li>LINUX</li>
+            </ul>
+        </section>
+
+        <section class="projects">
+            <h3>PROJECTS</h3>
+            <div class="project">
+                <h4>Sports Association Management Platform (Integrass)</h4>
+                <p class="tech">Technologies: Laravel, PHP, AWS, OpenAPI (Swagger), RESTful APIs</p>
+                <p class="impact">Led a team to deliver a battle-tested web app for a US non-profit sports association, slashing administrative overhead by 35% with automated workflows and real-time RESTful API integration.</p>
+            </div>
+            <div class="project">
+                <h4>Automated Payout System (GoodLifeUSA)</h4>
+                <p class="tech">Technologies: PHP, Laravel, MySQL, ACH (NACHA), Hyperwallet</p>
+                <p class="impact">Engineered a payout solution handling ACH, bills, and Hyperwallet for a membership platform, automating 90% of the process and enabling C-level strategic decisions with real-time payout reports.</p>
+            </div>
+            <div class="project">
+                <h4>VendorSync Contract Platform (MappleStreet)</h4>
+                <p class="tech">Technologies: PHP, Laravel 5.3, MySQL, jQuery, Bootstrap</p>
+                <p class="impact">Built a contract management system that automated renewal alerts and vendor due diligence, reducing client contract errors by 40% and improving negotiation efficiency.</p>
+            </div>
+            <div class="project">
+                <h4>RFC FastSearch (Self)</h4>
+                <p class="tech">Technologies: MEAN Stack (MongoDB, Express, Angular, Node.js), Elasticsearch, HTML5, CSS3</p>
+                <p class="impact">Transformed a massive XML government file into a user-friendly lookup site, cutting search times from minutes to under 2 seconds for millions of records with Elasticsearch.</p>
+            </div>
+            <div class="project">
+                <h4>CouponConnect App (Cuponeate.mx)</h4>
+                <p class="tech">Technologies: PHP, AngularJS, Ionic, MySQL, Google Maps API, PayPal</p>
+                <p class="impact">Developed a cross-platform coupon app with location-based search, boosting user engagement by 50% and automating company coupon management with a custom dashboard.</p>
+            </div>
+        </section>
+
+        <section class="fun-stuff">
+            <h3>FUN STUFF</h3>
+            <canvas id="snakeGame" width="400" height="400"></canvas>
+            <div class="scoreboard">
+                <h4>YOUR TOP SCORES</h4>
+                <ul id="localScores"></ul>
+            </div>
+            <div class="scoreboard global-board">
+                <h4>TOP SCORES WORLDWIDE</h4>
+                <ul>
+                    <li>Martin - 150</li>
+                    <li>PlayerX - 120</li>
+                    <li>Coder123 - 90</li>
+                </ul>
+                <p>Email me your score + hash to join the global board!</p>
+            </div>
+            <p>Use arrow keys to play Snake! Current Score: <span id="currentScore">0</span> | Hash: <span id="scoreHash">N/A</span></p>
+
+            <div class="terminal" id="terminal">
+                <div class="output" id="terminalOutput">Welcome to Martin's Terminal. Type 'help' for commands.<br>[INFO] Click anywhere to enable boot beep sound.</div>
+                <div class="input-line">
+                    <span class="prompt">martin~$</span>
+                    <input type="text" id="terminalInput" autofocus>
+                    <span class="cursor"></span>
+                </div>
+            </div>
+            <p>Try commands like 'resume', 'status', 'code', or 'reboot'!</p>
+
+            <script>
+                (function() {
+                    // Mode Switching
+                    const body = document.body;
+                    const modeSwitch = document.getElementById('modeSwitch');
+                    const savedMode = localStorage.getItem('themeMode') || 'terminal-mode';
+                    body.className = savedMode;
+
+                    modeSwitch.addEventListener('click', () => {
+                        const newMode = body.className === 'terminal-mode' ? 'kindle-mode' : 'terminal-mode';
+                        body.className = newMode;
+                        localStorage.setItem('themeMode', newMode);
+                    });
+
+                    // Boot Sequence
+                    const bootScreen = document.getElementById('bootScreen');
+                    const bootText = document.getElementById('bootText');
+                    const mainContent = document.getElementById('mainContent');
+                    const terminalOutput = document.getElementById('terminalOutput');
+                    const bootMessage = 'BOOTING MARTINOS V1.0.0...';
+
+                    // Terminal Emulator
+                    const terminal = document.getElementById('terminal');
+                    //const terminalOutput = document.getElementById('terminalOutput');
+                    const terminalInput = document.getElementById('terminalInput');
+                    let i = 0;
+                    let hasBeeped = false;
+
+                    function typeBoot() {
+                        if (i < bootMessage.length) {
+                            bootText.textContent += bootMessage.charAt(i);
+                            i++;
+                            setTimeout(typeBoot, 50);
+                        } else {
+                            setTimeout(() => {
+                                bootScreen.classList.add('hidden');
+                                mainContent.classList.add('visible');
+                            }, 500);
+                        }
+                    }
+
+                    function playBeep() {
+                        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                        const oscillator = audioCtx.createOscillator();
+                        oscillator.type = 'square';
+                        oscillator.frequency.setValueAtTime(440, audioCtx.currentTime);
+                        oscillator.connect(audioCtx.destination);
+                        oscillator.start();
+                        oscillator.stop(audioCtx.currentTime + 0.1);
+                        terminalOutput.innerHTML += '<div class="output">[SYSTEM] BOOT BEEP ACTIVATED.</div>';
+                        terminal.scrollTop = terminal.scrollHeight;
+                    }
+
+                    document.addEventListener('click', () => {
+                        if (!hasBeeped) {
+                            playBeep();
+                            hasBeeped = true;
+                        }
+                    });
+
+                    typeBoot();
+
+                    // Snake Game
+                    const canvas = document.getElementById('snakeGame');
+                    const ctx = canvas.getContext('2d');
+                    const gridSize = 20;
+                    const tileCount = canvas.width / gridSize;
+                    let snake = [{ x: 10, y: 10 }];
+                    let food = { x: 15, y: 15 };
+                    let dx = 0;
+                    let dy = 0;
+                    let score = 0;
+
+                    const currentScore = document.getElementById('currentScore');
+                    const scoreHash = document.getElementById('scoreHash');
+                    const localScoresList = document.getElementById('localScores');
+                    let topScores = JSON.parse(localStorage.getItem('snakeTopScores')) || [];
+
+                    function simpleHash(str) {
+                        let hash = 0;
+                        for (let i = 0; i < str.length; i++) {
+                            hash = (hash << 5) - hash + str.charCodeAt(i);
+                            hash = hash & hash;
+                        }
+                        return Math.abs(hash).toString(16).toUpperCase().slice(0, 8);
+                    }
+
+                    function updateLocalScores(score) {
+                        topScores.push(score);
+                        topScores.sort((a, b) => b - a);
+                        topScores = topScores.slice(0, 5);
+                        localStorage.setItem('snakeTopScores', JSON.stringify(topScores));
+                        localScoresList.innerHTML = topScores.map(s => `<li>${s}</li>`).join('');
+                    }
+
+                    function drawGame() {
+                        snake.unshift({ x: snake[0].x + dx, y: snake[0].y + dy });
+                        if (snake[0].x === food.x && snake[0].y === food.y) {
+                            score += 10;
+                            food = { x: Math.floor(Math.random() * tileCount), y: Math.floor(Math.random() * tileCount) };
+                        } else {
+                            snake.pop();
+                        }
+
+                        if (snake[0].x < 0 || snake[0].x >= tileCount || snake[0].y < 0 || snake[0].y >= tileCount ||
+                            snake.slice(1).some(segment => segment.x === snake[0].x && segment.y === snake[0].y)) {
+                            updateLocalScores(score);
+                            const timestamp = Date.now();
+                            scoreHash.textContent = simpleHash(score + timestamp.toString());
+                            snake = [{ x: 10, y: 10 }];
+                            dx = 0;
+                            dy = 0;
+                            score = 0;
+                        }
+
+                        ctx.fillStyle = body.className === 'terminal-mode' ? '#1a1a1a' : '#fffcf7';
+                        ctx.fillRect(0, 0, canvas.width, canvas.height);
+                        ctx.fillStyle = body.className === 'terminal-mode' ? '#33ff33' : '#2f2f2f';
+                        snake.forEach(segment => {
+                            ctx.fillRect(segment.x * gridSize, segment.y * gridSize, gridSize - 2, gridSize - 2);
+                        });
+                        ctx.fillStyle = '#ff6b6b';
+                        ctx.fillRect(food.x * gridSize, food.y * gridSize, gridSize - 2, gridSize - 2);
+                        ctx.fillStyle = body.className === 'terminal-mode' ? '#33ff33' : '#2f2f2f';
+                        ctx.font = body.className === 'terminal-mode' ? '20px "Courier New"' : '20px Georgia';
+                        ctx.fillText('SCORE: ' + score, 10, 30);
+
+                        currentScore.textContent = score;
+                        setTimeout(drawGame, 100);
+                    }
+
+                    document.addEventListener('keydown', e => {
+                        if (e.target.id !== 'terminalInput') {
+                            switch (e.key) {
+                                case 'ArrowUp': if (dy === 0) { dx = 0; dy = -1; } break;
+                                case 'ArrowDown': if (dy === 0) { dx = 0; dy = 1; } break;
+                                case 'ArrowLeft': if (dx === 0) { dx = -1; dy = 0; } break;
+                                case 'ArrowRight': if (dx === 0) { dx = 1; dy = 0; } break;
+                            }
+                        }
+                    });
+
+                    localScoresList.innerHTML = topScores.map(s => `<li>${s}</li>`).join('');
+                    drawGame();
+
+
+                    const commands = {
+                        'whoami': 'Martin Roldan, Senior Web Developer',
+                        'skills': 'PHP, Laravel, JavaScript, HTML5, CSS3, MySQL, Git, RESTful APIs, Linux',
+                        'projects': 'Sports Association Management Platform (Integrass): Slashed admin overhead by 35%.\nAutomated Payout System (GoodLifeUSA): Automated 90% of payouts.\nVendorSync Contract Platform (MappleStreet): Reduced contract errors by 40%.\nRFC FastSearch (Self): Cut search times to under 2s.\nCouponConnect App (Cuponeate.mx): Boosted engagement by 50%.',
+                        'contact': 'Email: me@mroldan.mx | LinkedIn: https://www.linkedin.com/in/mroldanmx/',
+                        'game': () => `Current Snake score: ${score}. Beat 150 to top the global board!`,
+                        'uptime': () => `System online since ${new Date().toLocaleDateString()} - that's ${Math.floor((Date.now() - new Date('2025-03-14').getTime()) / (1000 * 60 * 60 * 24))} days!`,
+                        'hack': 'Initializing hack... Just kidding! Here’s a fun fact: I once optimized a Laravel app to load 30% faster.',
+                        'resume': '10+ years as a Computer Science Engineer. Master of PHP/Laravel, RESTful APIs, and turning Figma into React. Delivered for sports, government, and more. Passionate about TDD and clean code.',
+                        'ls': 'dir, maybe? Nope, this ain’t Windows either. Try ‘projects’ for something useful!',
+                        'status': 'All systems green. Currently coding, gaming, and sipping coffee. Uptime: 100%.',
+                        'code': 'Current snippet: function optimize() { return "30% faster Laravel apps"; }',
+                        'deploy': 'Deploying portfolio... Done! Live at https://mroldan.mx. No CI/CD here—just raw HTML!',
+                        'reboot': () => { terminalOutput.innerHTML += 'Rebooting... JK, refreshing instead!'; setTimeout(() => location.reload(), 1000); return ''; },
+                        'version': 'MartinOS v1.0.0 - Built with caffeine and code. Last updated: March 14, 2025.',
+                        'help': 'Available commands: whoami, skills, projects, contact, game, uptime, hack, resume, ls, status, code, deploy, reboot, version, clear, help',
+                        'clear': () => { terminalOutput.innerHTML = ''; return ''; }
+                    };
+
+                    terminal.addEventListener('click', () => terminalInput.focus());
+
+                    terminalInput.addEventListener('keydown', e => {
+                        if (e.key === 'Enter') {
+                            const input = terminalInput.value.trim().toLowerCase();
+                            terminalOutput.innerHTML += `<div>> ${input}</div>`;
+                            if (input in commands) {
+                                const response = typeof commands[input] === 'function' ? commands[input]() : commands[input];
+                                if (response) terminalOutput.innerHTML += `<div class="output">${response}</div>`;
+                            } else {
+                                terminalOutput.innerHTML += `<div class="output">Command not found. Type 'help' for options.</div>`;
+                            }
+                            terminalInput.value = '';
+                            terminal.scrollTop = terminal.scrollHeight;
+                        }
+                    });
+                })();
+            </script>
+        </section>
+
+        <section class="contact">
+            <h3>CONTACT</h3>
+            <p>
+                <a href="https://www.linkedin.com/in/mroldanmx/" target="_blank">LinkedIn</a>
+                <a href="mailto:me@mroldan.mx">Email Me</a>
+            </p>
+            <div class="pgp-key">
+                <h4>My PGP Public Key</h4>
+                <p>Use this key to send me encrypted emails. Fingerprint: A1B2 C3D4 E5F6 G7H8 I9J0 K1L2 M3N4 O5P6 Q7R8 S9T0 | Key ID: 0xQ7R8S9T0</p>
+                <pre>
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+mQENBF+abcdeBCD/ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/==
+-----END PGP PUBLIC KEY BLOCK-----
+                </pre>
+            </div>
+        </section>
+
+        <footer>© 2025 Martin Roldan. All rights reserved.</footer>
+    </div>
+</body>
+</html>
